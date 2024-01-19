@@ -38,12 +38,6 @@ jobs:
       #                                                      #
       ########################################################
 
-      - name: Set password of every built-in user to 'testpasswd'
-        run: |
-
-          sed -i -e 's/\(ELASTIC_PASSWORD=\)'\''changeme'\''/\1testpasswd/g' \
-                 -e 's/\(KIBANA_SYSTEM_PASSWORD=\)'\''changeme'\''/\1testpasswd/g' \
-
       ##########################################################
       #                                                        #
       # Test core components: Elasticsearch, Logstash, Kibana. #
