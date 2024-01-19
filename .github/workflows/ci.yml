@@ -18,7 +18,7 @@ jobs:
       COMPOSE_PROJECT_NAME: docker-elk
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       #####################################################
       #                                                   #
@@ -67,6 +67,11 @@ jobs:
         run: |
           docker compose up setup
           docker compose up -d
+
+      # Elasticsearch's high disk watermark gets regularly exceeded on GitHub Actions runners.
+      # https://www.elastic.co/guide/en/elasticsearch/reference/8.10/fix-watermark-errors.html
+      - name: Disable Elasticsearch disk allocation decider
+        run: .github/workflows/scripts/disable-disk-alloc-decider.sh
 
       - name: Execute core test suite
         run: .github/workflows/scripts/run-tests-core.sh
@@ -200,7 +205,7 @@ jobs:
 
       - name: Upload collected troubleshooting data
         if: always() && steps.debug-data.outputs.path
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: debug-data
           path: ${{ steps.debug-data.outputs.path }}/*.*
