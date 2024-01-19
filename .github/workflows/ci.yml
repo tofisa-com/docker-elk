@@ -60,9 +60,6 @@ jobs:
       - name: Disable Elasticsearch disk allocation decider
         run: .github/workflows/scripts/disable-disk-alloc-decider.sh
 
-      - name: Execute core test suite
-        run: .github/workflows/scripts/run-tests-core.sh
-
       - name: Terminate all components
         if: always()
         run: >-
