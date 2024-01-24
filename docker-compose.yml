@@ -62,6 +62,23 @@ services:
     network_mode: host      
     restart: always
 
+  kibana:
+    build:
+      context: kibana/
+      args:
+        ELASTIC_VERSION: ${ELASTIC_VERSION}
+    volumes:
+      - ./kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml:ro,Z
+    environment:
+      KIBANA_SYSTEM_PASSWORD: ${KIBANA_SYSTEM_PASSWORD:-}
+      VIRTUAL_HOST: kibana.tofisanext.com
+      LETSENCRYPT_HOST: kibana.tofisanext.com
+      VIRTUAL_PORT: 5601
+    network_mode: host
+    restart: always
+    depends_on:
+      - elasticsearch    
+
 volumes:
   setup:
   elasticsearch:
